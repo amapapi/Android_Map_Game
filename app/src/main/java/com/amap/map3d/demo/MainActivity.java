@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.amap.api.maps.MapsInitializer;
 import com.amap.map3d.demo.opengl.CubeActivity;
+import com.amap.map3d.demo.opengl.MS3DModelActivity;
 import com.amap.map3d.demo.opengl.MaskLayerActivity;
 import com.amap.map3d.demo.opengl.ModelActivity;
 import com.amap.map3d.demo.opengl.ParticleActivity;
@@ -64,6 +65,8 @@ public final class MainActivity extends ListActivity {
                     ParticleActivity.class),
             new DemoDetails(R.string.opengl_demo, R.string.opengl_description_model,
                     ModelActivity.class),
+            new DemoDetails(R.string.opengl_demo, R.string.opengl_description_model_ms3d,
+                    MS3DModelActivity.class),
 
     };
 
