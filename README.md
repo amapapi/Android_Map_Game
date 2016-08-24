@@ -10,7 +10,7 @@ Android_Map_Game
 
 ##效果图如下:
 
-<iframe height=640 width=340 src="demo.gif"/>
+* ![Screenshot](pictures/screenshot01.png "Case01")
 
 
 ##使用方法：
