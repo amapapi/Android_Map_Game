@@ -76,10 +76,6 @@ public class MS3DMapRender implements CustomRenderer {
     @Override
     public void onDrawFrame(GL10 gl) {
         if(ms3d != null) {
-//            if(isNeedCalPoint) {
-//                cube.update(translate_vector, SCALE);
-//                isNeedCalPoint = false;
-//            }
 
             GLES10.glPushMatrix();
             GLES10.glDisable(GLES10.GL_CULL_FACE);

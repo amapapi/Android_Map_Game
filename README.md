@@ -41,58 +41,29 @@ Android_Map_Game
      }
 ```
     
-- 缩放比例变化   
+- 地图开放每桢回调及坐标转换
+
 ``` java
+
     class MapRenderer implements CustomRenderer{
-        //平移位置
-        private float[] translate_vector = new float[4];
-        //缩放比例
-        public static float SCALE = 0.005F;
-        private LatLng center = new LatLng(39.90403, 116.407525);// 北京市经纬度
-        private AMap aMap;
-        public MapRenderer(AMap aMap) {
-             this.aMap = aMap;
-             aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center,15));
-        }
-        
+        TigerModel tiger;
+        AMap aMap;
+        ...
         @Override
         public void onDrawFrame(GL10 gl) {
-            // 注2：绘制各种图形的opengl代码
-        
+            // 地图开放每帧Render 回调
+            // 绘制模型
+            tiger.draw();
         }
-        
-        @Override
-        public void onSurfaceChanged(GL10 gl, int width, int height) {
-        
-        }
-        
-        @Override
-        public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        }
-        
         
         @Override
         public void OnMapReferencechanged() {
-             //注3：回调这个时，缩放比例发生改变，需要重新计算缩放比例
-             calScaleAndTranslate();
-        
-        }
-        
-        private void calScaleAndTranslate() {
-           // 坐标会变化，重新计算计算偏移，供参考，可以自行定义
-             PointF pointF = aMap.getProjection().toOpenGLLocation(center);
-            
-             translate_vector[0] = pointF.x;
-             translate_vector[1] = pointF.y;
-             translate_vector[2] = 0;
-            
-             //重新计算缩放比例
-             LatLng latLng2 = new LatLng(center.latitude + 0.001, center.longitude + 0.001);
-             PointF pointF2 = aMap.getProjection().toOpenGLLocation(latLng2);
-             double _x = Math.abs((pointF.x - pointF2.x));
-             double _y = Math.abs((pointF.y - pointF2.y));
-             SCALE = (float) Math.sqrt((_x * _x + _y * _y));
-            }   
-        }
+             // 地图放到到一定级别 重新计算缩放比例
+             // 开放屏幕、经纬度和OPENGL坐标互转
+             aMap.getProjection().fromScreenLocation(screenPos);//屏幕坐标转经纬度
+             aMap.getProjection().toScreenLocation(mapLatlng);//经纬度转屏幕坐标
+             aMap.getProjection().toOpenGLLocation(mapLatlng);//经纬度转OPENGL坐标
+             aMap.getProjection().toOpenGLWidth(screenWidth);//幕宽度转OPENGL宽度
+        } 
     }
 ```
