@@ -22,66 +22,76 @@ Android_Map_Game
     地图SDK使用OPENGL实现,可通过AMap.setCustomRenderer(CustomRenderer render)获取OPENGL渲染时的回调接口。
     
 - 初始化AMap对象及获取OPENGL绘制回调
-    ```java
-         /**
-          * 初始化AMap对象
-          */
-         private void init() {
-             if (aMap == null) {
-                 aMap = mapView.getMap();
-      
-                 //关闭文字
-                 aMap.showMapText(false);
-                 //关闭3d楼块
-                 aMap.showBuildings(false);
-                 //注1：设置opengl Renderer
-                 aMap.setCustomRenderer(new MapRenderer(aMap));
-             }
-         }
-    ```
+``` java
+     /**
+      * 初始化AMap对象
+      */
+     private void init() {
+         if (aMap == null) {
+             aMap = mapView.getMap();
     
- - 缩放比例变化   
-   ```java
-         class MapRenderer implements CustomRenderer{
-         //平移位置
-         private float[] translate_vector = new float[4];
-         //缩放比例
-         public static float SCALE = 0.005F;
-         private LatLng center = new LatLng(39.90403, 116.407525);// 北京市经纬度
-         private AMap aMap;
-         public MapRenderer(AMap aMap) {
+             //关闭文字
+             aMap.showMapText(false);
+             //关闭3d楼块
+             aMap.showBuildings(false);
+             //注1：设置opengl Renderer
+             aMap.setCustomRenderer(new MapRenderer(aMap));
+         }
+     }
+```
+    
+- 缩放比例变化   
+``` java
+    class MapRenderer implements CustomRenderer{
+        //平移位置
+        private float[] translate_vector = new float[4];
+        //缩放比例
+        public static float SCALE = 0.005F;
+        private LatLng center = new LatLng(39.90403, 116.407525);// 北京市经纬度
+        private AMap aMap;
+        public MapRenderer(AMap aMap) {
              this.aMap = aMap;
              aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center,15));
-         }
-      
-         @Override
-         public void onDrawFrame(GL10 gl) {
-             // 注2：绘制各种图形的opengl代码
-      
-         }
- 
-      
-         @Override
-         public void OnMapReferencechanged() {
+        }
+        
+        @Override
+        public void onDrawFrame(GL10 gl) {
+            // 注2：绘制各种图形的opengl代码
+        
+        }
+        
+        @Override
+        public void onSurfaceChanged(GL10 gl, int width, int height) {
+        
+        }
+        
+        @Override
+        public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        }
+        
+        
+        @Override
+        public void OnMapReferencechanged() {
              //注3：回调这个时，缩放比例发生改变，需要重新计算缩放比例
              calScaleAndTranslate();
-      
-         }
-      
-         private void calScaleAndTranslate() {
-             // 坐标会变化，重新计算计算偏移，供参考，可以自行定义
+        
+        }
+        
+        private void calScaleAndTranslate() {
+           // 坐标会变化，重新计算计算偏移，供参考，可以自行定义
              PointF pointF = aMap.getProjection().toOpenGLLocation(center);
-      
+            
              translate_vector[0] = pointF.x;
              translate_vector[1] = pointF.y;
              translate_vector[2] = 0;
-      
+            
              //重新计算缩放比例
              LatLng latLng2 = new LatLng(center.latitude + 0.001, center.longitude + 0.001);
              PointF pointF2 = aMap.getProjection().toOpenGLLocation(latLng2);
              double _x = Math.abs((pointF.x - pointF2.x));
              double _y = Math.abs((pointF.y - pointF2.y));
              SCALE = (float) Math.sqrt((_x * _x + _y * _y));
-         }
-     }
-   ```
+            }   
+        }
+    }
+```
