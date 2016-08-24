@@ -10,11 +10,10 @@ Android_Map_Game
 
 ##效果图如下:
 
-<iframe height=640 width=340 src="demo.gif">
+<iframe height=640 width=340 src="demo.gif"/>
 
 
 ##使用方法：
-
 
 **1.搭建高德地图 AndroidSDK 工程方法见**
 [地图SDK使用方法](http://developer.amap.com/api/android-sdk/summary/)
@@ -22,8 +21,8 @@ Android_Map_Game
 **2.OPENGL接口回调以及缩放比例**
     地图SDK使用OPENGL实现,可通过AMap.setCustomRenderer(CustomRenderer render)获取OPENGL渲染时的回调接口。
     
+- 初始化AMap对象及获取OPENGL绘制回调
     ```java
-     ...
          /**
           * 初始化AMap对象
           */
@@ -39,8 +38,10 @@ Android_Map_Game
                  aMap.setCustomRenderer(new MapRenderer(aMap));
              }
          }
-         ...
-      
+    ```
+    
+ - 缩放比例变化   
+   ```java
          class MapRenderer implements CustomRenderer{
          //平移位置
          private float[] translate_vector = new float[4];
@@ -58,7 +59,7 @@ Android_Map_Game
              // 注2：绘制各种图形的opengl代码
       
          }
-         ...
+ 
       
          @Override
          public void OnMapReferencechanged() {
@@ -83,4 +84,4 @@ Android_Map_Game
              SCALE = (float) Math.sqrt((_x * _x + _y * _y));
          }
      }
-    ```
+   ```
