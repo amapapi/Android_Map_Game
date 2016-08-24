@@ -19,6 +19,7 @@ Android_Map_Game
 [地图SDK使用方法](http://developer.amap.com/api/android-sdk/summary/)
 
 **2.OPENGL接口回调以及缩放比例**
+
     地图SDK使用OPENGL实现,可通过AMap.setCustomRenderer(CustomRenderer render)获取OPENGL渲染时的回调接口。
     
 - 初始化AMap对象及获取OPENGL绘制回调
